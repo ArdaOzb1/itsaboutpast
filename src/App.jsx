@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 // --- SENİN NUMARAN ---
 const MY_PHONE_NUMBER = "905350631705"; // Kendi numaranı başında + olmadan yaz
 
-// Profil fotoğrafı dosya yolu (public/avatar.jpg)
+// Profil fotoğrafı ve Duvar Kağıdı dosya yolları (public klasöründe bulunmalı)
 const AVATAR_IMG = "/avatar.jpg";
+const WALLPAPER_IMG = "/wallpaper.jpg";
 
 // --- SOHBET SENARYOSU ---
 const CHAT_FLOW = [
@@ -82,7 +83,7 @@ function IOSBattery() {
 
 function WhatsAppSVG() {
   return (
-    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
     </svg>
   );
@@ -208,9 +209,13 @@ export default function App() {
           <div className="w-full h-full flex flex-col relative overflow-hidden">
             
             {!inChat ? (
-              /* ANA EKRAN */
-              <div className="w-full h-full flex flex-col justify-between pt-3 pb-8 px-6 bg-gradient-to-b from-[#181a29] via-[#21152e] to-[#0c0d14] text-white relative">
-                <div className="flex justify-between items-center text-[13px] font-semibold px-4 pt-1 z-40">
+              /* --- 1. ÖZEL DUVAR KAĞIDI & SAĞ ÜST KÖŞEDE WHATSAPP --- */
+              <div 
+                className="w-full h-full relative text-white bg-cover bg-center overflow-hidden"
+                style={{ backgroundImage: `url(${WALLPAPER_IMG})` }}
+              >
+                {/* Status Bar */}
+                <div className="absolute top-0 left-0 right-0 flex justify-between items-center text-[13px] font-semibold px-6 pt-3.5 z-40">
                   <span>{currentTime}</span>
                   <div className="flex items-center gap-1.5">
                     <IOSSignal />
@@ -219,27 +224,34 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="flex-1 flex flex-col items-center justify-center">
+                {/* Sağ Üst Köşe WhatsApp İkonu */}
+                <div className="absolute top-16 right-5 z-30">
                   <div 
                     onClick={handleOpenApp}
                     className="relative flex flex-col items-center cursor-pointer group active:scale-90 transition-transform"
                   >
-                    <div className="w-[82px] h-[82px] rounded-[22px] bg-gradient-to-tr from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-2xl shadow-emerald-950/80 relative text-white group-hover:scale-105 transition-transform">
+                    <div className="w-[58px] h-[58px] rounded-[16px] bg-gradient-to-tr from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-2xl shadow-black/80 relative text-white group-hover:scale-105 transition-transform">
                       <WhatsAppSVG />
-                      <div className="absolute -top-2.5 -right-2.5 bg-[#ff3b30] text-white font-bold text-xs min-w-[26px] h-[26px] px-1 rounded-full flex items-center justify-center ring-[3px] ring-[#1c1c1e] shadow-lg animate-bounce">
+                      {/* Bildirim Rozeti */}
+                      <div className="absolute -top-1.5 -right-1.5 bg-[#ff3b30] text-white font-bold text-[11px] min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center ring-[2px] ring-black shadow-lg animate-bounce">
                         1
                       </div>
                     </div>
-                    <span className="text-sm font-medium text-white/90 mt-3 tracking-wide">WhatsApp</span>
+                    <span className="text-[11px] font-medium text-white/95 mt-1 tracking-wide drop-shadow-md">
+                      WhatsApp
+                    </span>
                   </div>
-                  <p className="text-[11px] text-neutral-400 mt-6 animate-pulse tracking-wide font-light">
-                    Tap to read message
-                  </p>
                 </div>
-                <div className="h-4"></div>
+
+                {/* Alt Kısım: Kilit Açma Yazısı */}
+                <div className="absolute bottom-6 left-0 right-0 flex justify-center z-20">
+                  <span className="text-[11px] text-white/60 tracking-wider font-light bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm animate-pulse">
+                    Swipe up or tap app to unlock
+                  </span>
+                </div>
               </div>
             ) : (
-              /* WHATSAPP SOHBET EKRANI */
+              /* --- 2. WHATSAPP SOHBET ARAYÜZÜ --- */
               <div className="w-full h-full flex flex-col bg-[#0b141a]">
                 
                 {/* Header */}
@@ -288,15 +300,15 @@ export default function App() {
                           m.sender === 'me' 
                             ? 'bg-[#005c4b] text-neutral-100 rounded-tr-none' 
                             : 'bg-[#202c33] text-neutral-100 rounded-tl-none'
-                      }`}
-                    >
-                      <p className="leading-relaxed whitespace-pre-line">{m.text}</p>
-                      <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-neutral-400">
-                        <span>{m.time}</span>
-                        {m.sender === 'me' && <DoubleCheckIcon />}
+                        }`}
+                      >
+                        <p className="leading-relaxed whitespace-pre-line">{m.text}</p>
+                        <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-neutral-400">
+                          <span>{m.time}</span>
+                          {m.sender === 'me' && <DoubleCheckIcon />}
+                        </div>
                       </div>
                     </div>
-                  </div>
                   ))}
 
                   {isTyping && (
@@ -384,9 +396,7 @@ export default function App() {
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/40 rounded-full pointer-events-none z-50"></div>
         </div>
       ) : (
-        /* 
-          AŞAMA 3: TAM EKRAN A4 MEKTUP (İNGİLİZCE)
-        */
+        /* --- 3. TAM EKRAN A4 MEKTUP (İNGİLİZCE + FARSÇA DOKUNUŞ) --- */
         <div className="fixed inset-0 bg-[#0e0e11] z-50 overflow-y-auto flex justify-center py-6 sm:py-12 px-3 sm:px-6">
           
           <div 
@@ -422,7 +432,7 @@ export default function App() {
               </h2>
             </div>
 
-            {/* Birebir İngilizce Mektup Gövdesi */}
+            {/* Mektup Gövdesi */}
             <div className="font-serif text-sm sm:text-base leading-relaxed text-neutral-700 space-y-4">
               <p>
                 I hope everything is going well for you. As usual, I was sitting in front of my computer around “my usual hour,” and just like I used to do, the idea of creating something like this came to mind. But this time, it’s entirely an effort to apologize. Maybe I can’t clearly pinpoint where I made a mistake, but I take full responsibility for how it made you feel; I admit it, the fault is completely mine, <em>I got schooled</em>—so I don’t even know what else to say…
@@ -469,8 +479,18 @@ export default function App() {
               </p>
             </div>
 
+            {/* FARSÇA ÖZÜR & SEVGİ/ÖZLEM BLOKU */}
+            <div className="my-8 p-5 bg-[#f5eee1] rounded-xl border border-amber-900/15 text-center shadow-sm relative overflow-hidden">
+              <div className="text-xl sm:text-2xl text-amber-950 font-serif leading-loose tracking-wide select-text" dir="rtl">
+                خیلی معذرت می‌خوام، واقعاً دلم برات تنگ شده و خیلی دوستت دارم.
+              </div>
+              <div className="text-[11px] sm:text-xs text-amber-900/70 italic mt-2 font-serif">
+                "I am deeply sorry, I truly miss you, and I care about you so much."
+              </div>
+            </div>
+
             {/* İmza */}
-            <div className="text-right mt-10 mb-8 font-serif text-sm sm:text-base text-neutral-800">
+            <div className="text-right mt-6 mb-8 font-serif text-sm sm:text-base text-neutral-800">
               <p className="italic text-neutral-600">Sincerely,</p>
               <p className="font-semibold text-neutral-900 text-lg mt-1 tracking-wide">Arda</p>
             </div>
@@ -509,4 +529,4 @@ export default function App() {
 
     </div>
   );
-}
+}   
