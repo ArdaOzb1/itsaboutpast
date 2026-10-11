@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // --- SENİN NUMARAN ---
-const MY_PHONE_NUMBER = "905XXXXXXXXX"; // Kendi numaranı başında + olmadan yaz
+const MY_PHONE_NUMBER = "905350631705"; // Kendi numaranı başında + olmadan yaz
 
 // Dosya yolları (public klasöründe bulunmalı)
 const AVATAR_IMG = "/avatar.jpg";
