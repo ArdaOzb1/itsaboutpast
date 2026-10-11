@@ -122,8 +122,11 @@ function KraftEnvelopeMini({ onClick }) {
 
 export default function App() {
   const [inChat, setInChat] = useState(false);
+  const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+  // İlk mesajın saati anlık açılış saatine eşitlendi
   const [messages, setMessages] = useState([
-    { sender: 'them', text: CHAT_FLOW[0].incoming, time: 'Yesterday 23:42' }
+    { sender: 'them', text: CHAT_FLOW[0].incoming, time: currentTime }
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentStep, setCurrentStep] = useState(CHAT_FLOW[0]);
@@ -133,7 +136,6 @@ export default function App() {
   const [imgError, setImgError] = useState(false);
 
   const chatEndRef = useRef(null);
-  const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
