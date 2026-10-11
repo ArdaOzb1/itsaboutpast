@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // --- SENİN NUMARAN ---
-const MY_PHONE_NUMBER = "905350631705"; // Kendi numaranı başında + olmadan yaz
+const MY_PHONE_NUMBER = "905XXXXXXXXX"; // Kendi numaranı başında + olmadan yaz
 
 // Dosya yolları (public klasöründe bulunmalı)
 const AVATAR_IMG = "/avatar.jpg";
@@ -124,7 +124,6 @@ export default function App() {
   const [inChat, setInChat] = useState(false);
   const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-  // İlk mesajın saati anlık açılış saatine eşitlendi
   const [messages, setMessages] = useState([
     { sender: 'them', text: CHAT_FLOW[0].incoming, time: currentTime }
   ]);
@@ -196,13 +195,15 @@ export default function App() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-neutral-950 p-0 sm:p-4 select-none">
+    // Dış Arka Plan (Zarif koyu gri ton, telefonun çerçevesini belirgin kılar)
+    <div className="w-full h-[100dvh] flex items-center justify-center bg-[#151518] p-2 sm:p-5 select-none overflow-hidden">
       
       {animationStage !== 'fullscreen' ? (
-        <div className="relative w-full h-screen sm:w-[390px] sm:h-[844px] bg-black sm:rounded-[54px] shadow-2xl sm:ring-[12px] sm:ring-[#232326] overflow-hidden flex flex-col border border-neutral-800">
+        /* --- HER CİHAZDA GÖRÜNEN İPHONE ÇERÇEVESİ --- */
+        <div className="relative w-full max-w-[390px] h-full max-h-[820px] bg-black rounded-[46px] sm:rounded-[52px] shadow-[0_25px_70px_rgba(0,0,0,0.9)] ring-[9px] sm:ring-[12px] ring-[#2d2d31] overflow-hidden flex flex-col border border-neutral-800">
           
-          {/* Dynamic Island */}
-          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[105px] h-[28px] bg-black rounded-full z-50 flex items-center justify-between px-3">
+          {/* Dynamic Island (Tüm ekranlarda sabit görünür) */}
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[110px] h-[30px] bg-black rounded-full z-50 flex items-center justify-between px-3.5 shadow-md">
             <div className="w-2.5 h-2.5 rounded-full bg-[#111] border border-neutral-800 flex items-center justify-center">
               <div className="w-1 h-1 rounded-full bg-blue-950/80"></div>
             </div>
@@ -235,7 +236,6 @@ export default function App() {
                   >
                     <div className="w-[58px] h-[58px] rounded-[16px] bg-gradient-to-tr from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-2xl shadow-black/80 relative text-white group-hover:scale-105 transition-transform">
                       <WhatsAppSVG />
-                      {/* Bildirim Rozeti */}
                       <div className="absolute -top-1.5 -right-1.5 bg-[#ff3b30] text-white font-bold text-[11px] min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center ring-[2px] ring-black shadow-lg animate-bounce">
                         1
                       </div>
@@ -254,11 +254,11 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              /* --- 2. ÖZEL ARKA PLANLI WHATSAPP SOHBET ARAYÜZÜ --- */
+              /* --- 2. ÇERÇEVE İÇİNDEKİ WHATSAPP SOHBETİ --- */
               <div className="w-full h-full flex flex-col bg-[#0b141a]">
                 
-                {/* Header */}
-                <div className="w-full bg-[#202c33]/95 backdrop-blur-sm pt-9 pb-2.5 px-3 flex items-center gap-2.5 border-b border-neutral-800 text-white shadow-md z-10">
+                {/* Header (Dynamic Island altında ferah alan) */}
+                <div className="w-full bg-[#202c33]/95 backdrop-blur-sm pt-10 pb-2.5 px-3 flex items-center gap-2.5 border-b border-neutral-800 text-white shadow-md z-10 flex-shrink-0">
                   <div 
                     onClick={() => setInChat(false)} 
                     className="cursor-pointer text-[#00a884] text-base font-semibold flex items-center gap-0.5 active:opacity-60"
@@ -336,7 +336,7 @@ export default function App() {
 
                 {/* Seçenek Butonları */}
                 {currentStep && currentStep.options && (
-                  <div className="bg-[#202c33]/95 backdrop-blur-md p-3 border-t border-neutral-800 flex flex-col gap-2">
+                  <div className="bg-[#202c33]/95 backdrop-blur-md p-3 border-t border-neutral-800 flex flex-col gap-2 flex-shrink-0">
                     <span className="text-[10px] text-neutral-400 px-1 font-medium">Select a response:</span>
                     <div className="flex flex-col gap-1.5">
                       {currentStep.options.map((opt, i) => (
@@ -353,11 +353,11 @@ export default function App() {
                 )}
 
                 {/* Input Bar */}
-                <div className="bg-[#202c33] px-3 py-2 flex items-center gap-2 border-t border-neutral-800 text-neutral-400">
-                  <div className="flex-1 bg-[#2a3942] rounded-full px-4 py-1.5 text-xs text-neutral-400">
+                <div className="bg-[#202c33] px-3 pt-2 pb-3 flex items-center gap-2 border-t border-neutral-800 text-neutral-400 flex-shrink-0">
+                  <div className="flex-1 bg-[#2a3942] rounded-full px-4 py-2 text-xs text-neutral-400">
                     {currentStep ? "Choose an option above..." : "Type a message..."}
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-[#00a884] flex items-center justify-center text-white text-xs">
+                  <div className="w-8 h-8 rounded-full bg-[#00a884] flex items-center justify-center text-white text-xs flex-shrink-0">
                     ➤
                   </div>
                 </div>
@@ -399,20 +399,20 @@ export default function App() {
 
           </div>
 
+          {/* iPhone Alt Home Çizgisi */}
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/40 rounded-full pointer-events-none z-50"></div>
         </div>
       ) : (
-        /* --- 3. TAM EKRAN A4 MEKTUP (İNGİLİZCE + FARSÇA DOKUNUŞ) --- */
+        /* --- 3. TAM EKRAN A4 MEKTUP --- */
         <div className="fixed inset-0 bg-[#0e0e11] z-50 overflow-y-auto flex justify-center py-6 sm:py-12 px-3 sm:px-6">
           
           <div 
-            className="w-full max-w-2xl bg-[#fbf9f4] text-neutral-800 rounded-sm shadow-[0_30px_90px_rgba(0,0,0,0.85)] border border-[#e5dec9] p-8 sm:p-14 flex flex-col relative my-auto animate-fade-in"
+            className="w-full max-w-2xl bg-[#fbf9f4] text-neutral-800 rounded-sm shadow-[0_30px_90px_rgba(0,0,0,0.85)] border border-[#e5dec9] p-6 sm:p-14 flex flex-col relative my-auto animate-fade-in"
             style={{
               backgroundImage: 'radial-gradient(#d6cdb7 0.85px, transparent 0.85px)',
               backgroundSize: '28px 28px'
             }}
           >
-            {/* Üst Başlık & Kapatma */}
             <div className="flex justify-between items-center border-b border-amber-900/15 pb-4 mb-8">
               <span className="text-xs font-serif text-amber-950/60 uppercase tracking-widest font-semibold">
                 Personal Letter
@@ -431,14 +431,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* Hitap */}
             <div className="mb-6">
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
                 Dear Teacher,
               </h2>
             </div>
 
-            {/* Mektup Gövdesi */}
             <div className="font-serif text-sm sm:text-base leading-relaxed text-neutral-700 space-y-4">
               <p>
                 I hope everything is going well for you. As usual, I was sitting in front of my computer around “my usual hour,” and just like I used to do, the idea of creating something like this came to mind. But this time, it’s entirely an effort to apologize. Maybe I can’t clearly pinpoint where I made a mistake, but I take full responsibility for how it made you feel; I admit it, the fault is completely mine, <em>I got schooled</em>—so I don’t even know what else to say…
@@ -508,8 +506,6 @@ export default function App() {
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                {/* SOL BUTON: ÇARŞAMBA */}
                 <button
                   onClick={() => handleSendRealWhatsApp("Wednesday works, dinner's on you.")}
                   className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm shadow-md transition active:scale-95 flex items-center justify-center gap-2"
@@ -517,14 +513,12 @@ export default function App() {
                   <span>🍽️ Wednesday works, dinner's on you</span>
                 </button>
 
-                {/* SAĞ BUTON: PAZAR */}
                 <button
                   onClick={() => handleSendRealWhatsApp("Let's do Sunday instead, dinner sounds good.")}
                   className="w-full py-3.5 px-4 rounded-xl bg-neutral-800 hover:bg-neutral-900 text-white font-medium text-xs sm:text-sm shadow-md transition active:scale-95 flex items-center justify-center gap-2"
                 >
                   <span>🍽️ Let's do Sunday instead, dinner sounds good</span>
                 </button>
-
               </div>
             </div>
 
