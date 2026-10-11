@@ -195,14 +195,14 @@ export default function App() {
   };
 
   return (
-    // Dış Arka Plan (Zarif koyu gri ton, telefonun çerçevesini belirgin kılar)
+    // Dış Arka Plan (Telefon çerçevesini her cihazda ortaya çıkarır)
     <div className="w-full h-[100dvh] flex items-center justify-center bg-[#151518] p-2 sm:p-5 select-none overflow-hidden">
       
       {animationStage !== 'fullscreen' ? (
         /* --- HER CİHAZDA GÖRÜNEN İPHONE ÇERÇEVESİ --- */
         <div className="relative w-full max-w-[390px] h-full max-h-[820px] bg-black rounded-[46px] sm:rounded-[52px] shadow-[0_25px_70px_rgba(0,0,0,0.9)] ring-[9px] sm:ring-[12px] ring-[#2d2d31] overflow-hidden flex flex-col border border-neutral-800">
           
-          {/* Dynamic Island (Tüm ekranlarda sabit görünür) */}
+          {/* Dynamic Island */}
           <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[110px] h-[30px] bg-black rounded-full z-50 flex items-center justify-between px-3.5 shadow-md">
             <div className="w-2.5 h-2.5 rounded-full bg-[#111] border border-neutral-800 flex items-center justify-center">
               <div className="w-1 h-1 rounded-full bg-blue-950/80"></div>
@@ -257,7 +257,7 @@ export default function App() {
               /* --- 2. ÇERÇEVE İÇİNDEKİ WHATSAPP SOHBETİ --- */
               <div className="w-full h-full flex flex-col bg-[#0b141a]">
                 
-                {/* Header (Dynamic Island altında ferah alan) */}
+                {/* Header */}
                 <div className="w-full bg-[#202c33]/95 backdrop-blur-sm pt-10 pb-2.5 px-3 flex items-center gap-2.5 border-b border-neutral-800 text-white shadow-md z-10 flex-shrink-0">
                   <div 
                     onClick={() => setInChat(false)} 
@@ -484,7 +484,7 @@ export default function App() {
             </div>
 
             {/* FARSÇA ÖZÜR & SEVGİ/ÖZLEM BLOKU */}
-            <div className="my-8 p-5 bg-[#f5eee1] rounded-xl border border-amber-900/15 text-center shadow-sm relative overflow-hidden">
+            <div className="my-7 p-5 bg-[#f5eee1] rounded-xl border border-amber-900/15 text-center shadow-sm relative overflow-hidden">
               <div className="text-xl sm:text-2xl text-amber-950 font-serif leading-loose tracking-wide select-text" dir="rtl">
                 خیلی معذرت می‌خوام، واقعاً دلم برات تنگ شده و خیلی دوستت دارم.
               </div>
@@ -493,8 +493,14 @@ export default function App() {
               </div>
             </div>
 
+            {/* YENİ EKLENEN ÖZEL SÖZ / P.S. NOTU */}
+            <div className="mb-7 p-4 bg-amber-50/70 rounded-lg border-l-2 border-amber-800/40 text-neutral-700 font-serif text-xs sm:text-sm leading-relaxed italic">
+              <span className="font-semibold text-neutral-900 not-italic mr-1">P.S.</span>
+              If you remember, I once made you a promise back then. If you truly believe I hurt or upset you on purpose, I still have time to keep that promise!
+            </div>
+
             {/* İmza */}
-            <div className="text-right mt-6 mb-8 font-serif text-sm sm:text-base text-neutral-800">
+            <div className="text-right mb-8 font-serif text-sm sm:text-base text-neutral-800">
               <p className="italic text-neutral-600">Sincerely,</p>
               <p className="font-semibold text-neutral-900 text-lg mt-1 tracking-wide">Arda</p>
             </div>
