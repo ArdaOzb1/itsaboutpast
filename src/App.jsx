@@ -3,9 +3,10 @@ import React, { useState, useEffect, useRef } from 'react';
 // --- SENİN NUMARAN ---
 const MY_PHONE_NUMBER = "905350631705"; // Kendi numaranı başında + olmadan yaz
 
-// Profil fotoğrafı ve Duvar Kağıdı dosya yolları (public klasöründe bulunmalı)
+// Dosya yolları (public klasöründe bulunmalı)
 const AVATAR_IMG = "/avatar.jpg";
 const WALLPAPER_IMG = "/wallpaper.jpg";
+const CHAT_BG_IMG = "/chat-bg.jpg";
 
 // --- SOHBET SENARYOSU ---
 const CHAT_FLOW = [
@@ -102,7 +103,7 @@ function KraftEnvelopeMini({ onClick }) {
   return (
     <div 
       onClick={onClick}
-      className="cursor-pointer group flex flex-col items-center p-3 rounded-2xl bg-[#1f2c34] border border-[#b88351]/40 hover:border-[#d99b61] transition-all hover:scale-105 active:scale-95 shadow-xl max-w-[260px]"
+      className="cursor-pointer group flex flex-col items-center p-3 rounded-2xl bg-[#1f2c34]/90 backdrop-blur-sm border border-[#b88351]/40 hover:border-[#d99b61] transition-all hover:scale-105 active:scale-95 shadow-2xl max-w-[260px]"
     >
       <div className="relative w-44 h-28 bg-[#b88351] rounded-md shadow-inner overflow-hidden border border-[#966536] flex items-center justify-center">
         <div className="absolute inset-0 border-t-[56px] border-t-transparent border-b-[56px] border-b-[#9e6c3c] border-l-[88px] border-l-[#a67442] border-r-[88px] border-r-[#8f5e31] pointer-events-none"></div>
@@ -251,11 +252,11 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              /* --- 2. WHATSAPP SOHBET ARAYÜZÜ --- */
+              /* --- 2. ÖZEL ARKA PLANLI WHATSAPP SOHBET ARAYÜZÜ --- */
               <div className="w-full h-full flex flex-col bg-[#0b141a]">
                 
                 {/* Header */}
-                <div className="w-full bg-[#202c33] pt-9 pb-2.5 px-3 flex items-center gap-2.5 border-b border-neutral-800 text-white shadow-md z-10">
+                <div className="w-full bg-[#202c33]/95 backdrop-blur-sm pt-9 pb-2.5 px-3 flex items-center gap-2.5 border-b border-neutral-800 text-white shadow-md z-10">
                   <div 
                     onClick={() => setInChat(false)} 
                     className="cursor-pointer text-[#00a884] text-base font-semibold flex items-center gap-0.5 active:opacity-60"
@@ -284,9 +285,12 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Mesaj Listesi */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                  <div className="bg-[#182229] border border-neutral-800 text-amber-200/80 text-[10px] text-center p-2 rounded-lg mx-3 mb-4 shadow-sm">
+                {/* Mesaj Listesi (Özel Adem'in Yaratılışı Arka Planı) */}
+                <div 
+                  className="flex-1 overflow-y-auto p-4 space-y-3 bg-cover bg-center bg-no-repeat relative"
+                  style={{ backgroundImage: `linear-gradient(rgba(11, 20, 26, 0.72), rgba(11, 20, 26, 0.72)), url(${CHAT_BG_IMG})` }}
+                >
+                  <div className="bg-[#182229]/80 backdrop-blur-sm border border-neutral-800 text-amber-200/80 text-[10px] text-center p-2 rounded-lg mx-3 mb-4 shadow-sm">
                     Messages and calls are end-to-end encrypted. No one outside of this chat can read them.
                   </div>
 
@@ -296,10 +300,10 @@ export default function App() {
                       className={`flex flex-col max-w-[82%] ${m.sender === 'me' ? 'ml-auto items-end' : 'mr-auto items-start'}`}
                     >
                       <div 
-                        className={`px-3 py-2 rounded-2xl text-xs relative shadow-sm ${
+                        className={`px-3 py-2 rounded-2xl text-xs relative shadow-md backdrop-blur-sm ${
                           m.sender === 'me' 
-                            ? 'bg-[#005c4b] text-neutral-100 rounded-tr-none' 
-                            : 'bg-[#202c33] text-neutral-100 rounded-tl-none'
+                            ? 'bg-[#005c4b]/95 text-neutral-100 rounded-tr-none' 
+                            : 'bg-[#202c33]/95 text-neutral-100 rounded-tl-none'
                         }`}
                       >
                         <p className="leading-relaxed whitespace-pre-line">{m.text}</p>
@@ -312,7 +316,7 @@ export default function App() {
                   ))}
 
                   {isTyping && (
-                    <div className="flex items-center gap-1 bg-[#202c33] px-3 py-2 rounded-2xl rounded-tl-none w-14 text-neutral-400">
+                    <div className="flex items-center gap-1 bg-[#202c33]/90 backdrop-blur-sm px-3 py-2 rounded-2xl rounded-tl-none w-14 text-neutral-400 shadow-md">
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse"></span>
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse delay-75"></span>
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse delay-150"></span>
@@ -337,7 +341,7 @@ export default function App() {
                         <button
                           key={i}
                           onClick={() => handleUserReply(opt)}
-                          className="w-full text-left px-3.5 py-2.5 rounded-xl bg-[#2a3942] hover:bg-[#32444f] active:scale-[0.99] text-xs text-neutral-100 transition border border-neutral-700/60 font-medium"
+                          className="w-full text-left px-3.5 py-2.5 rounded-xl bg-[#2a3942] hover:bg-[#32444f] active:scale-[0.99] text-xs text-neutral-100 transition border border-neutral-700/60 font-medium shadow-sm"
                         >
                           {opt.text}
                         </button>
@@ -529,4 +533,4 @@ export default function App() {
 
     </div>
   );
-}   
+}
